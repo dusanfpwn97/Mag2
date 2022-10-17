@@ -1,4 +1,6 @@
 #include "Sprite.h"
+#include "Vertex.h"
+#include <cstddef>
 
 Sprite::Sprite()
 {
@@ -25,28 +27,37 @@ void Sprite::init(float x, float y, float width, float height)
 		glGenBuffers(1, &_vboID);
 	}
 
-	float vertexData[12];
+	Vertex vertexData[6] = {};
 
 	// first triangle
-	vertexData[0] = _x + _width;
-	vertexData[1] = _y + _height;
+	vertexData[0].SetPosition(_x + _width, _y + _height);
+	vertexData[0].setUV(1.0f, 1.0f);
 
-	vertexData[2] = _x;
-	vertexData[3] = _y + _height;
+	vertexData[1].SetPosition(_x, _y + _height);
+	vertexData[1].setUV(0.0f, 1.0f);
 
-	vertexData[4] = _x;
-	vertexData[5] = _y;
+	vertexData[2].SetPosition(_x, _y);
+	vertexData[2].setUV(0.0f, 0.0f);
 
 	//Second Triangle
-	vertexData[6] = _x;
-	vertexData[7] = _y;
+	vertexData[3].SetPosition(_x, _y);
+	vertexData[3].setUV(0.0f, 0.0f);
 
-	vertexData[8] = _x + _width;
-	vertexData[9] = _y;
+	vertexData[4].SetPosition(_x + _width, _y);
+	vertexData[4].setUV(1.0f, 0.0f);
 
-	vertexData[10] = _x + _width;
-	vertexData[11] = _y + _height;
+	vertexData[5].SetPosition(_x + _width, _y + _height);
+	vertexData[5].setUV(1.0f, 1.0f);
 
+
+	for (int i = 0; i < 6; i++)
+	{
+		vertexData[i].setColor(255, 0, 225, 255);
+
+	}
+
+	vertexData[1].setColor(0, 0, 225, 255);
+	vertexData[4].setColor(0, 255, 225, 255);
 
 	glBindBuffer(GL_ARRAY_BUFFER, _vboID);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertexData), vertexData, GL_STATIC_DRAW);
@@ -58,7 +69,12 @@ void Sprite::draw()
 {
 	glBindBuffer(GL_ARRAY_BUFFER, _vboID);
 	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, 0);
+
+	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE,		   sizeof(Vertex), (void*)offsetof(Vertex, position));
+	glVertexAttribPointer(1, 4, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(Vertex), (void*)offsetof(Vertex, color));
+	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, uv));
+
+
 
 	glDrawArrays(GL_TRIANGLES, 0, 6);
 

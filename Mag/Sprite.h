@@ -19,7 +19,7 @@ private:
 	float _y = 0;
 	float _width = 0;
 	float _height = 0;
-	GLuint _vboID = 0;
+	GLint _vboID = 0;
 
 
 };
