@@ -1,12 +1,11 @@
 #include "MainGame.h"
 #include <iostream>
 #include <string>
-#include "errors.h"
+#include <EFE/errors.h>
 //#include "ImageLoader.h"
 
 
-MainGame::MainGame() : _window(nullptr),
-					   _screenWidth(1024),
+MainGame::MainGame() : _screenWidth(1024),
 					   _screenHeight(768),
 					   _gameState(GameState::PLAY),
 					   _time(0.f),
@@ -17,15 +16,16 @@ MainGame::MainGame() : _window(nullptr),
 
 MainGame::~MainGame()
 {
+
 }
 
 void MainGame::run()
 {
 	initSystems();
 
-	_sprites.push_back(new Sprite());
+	_sprites.push_back(new efe::Sprite());
 	_sprites.back()->init(-1, -1, 1, 1, "textures/jimmyJump_pack/PNG/CharacterRight_Standing.png");
-	_sprites.push_back(new Sprite());
+	_sprites.push_back(new efe::Sprite());
 	_sprites.back()->init(0.0f, -1, 1, 1, "textures/jimmyJump_pack/PNG/CharacterRight_Standing.png");
 
 
@@ -34,31 +34,8 @@ void MainGame::run()
 
 void MainGame::initSystems()
 {
-	SDL_Init(SDL_INIT_EVERYTHING);
-	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 
-	_window = SDL_CreateWindow("EF Engine", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, _screenWidth, _screenHeight, SDL_WINDOW_OPENGL);
-
-	if (_window == nullptr) fatalError("SDL Window could not be created!");
-	
-	SDL_GLContext glContext = SDL_GL_CreateContext(_window);
-
-	if (glContext == nullptr)
-	{
-		fatalError("SDL_GL context could not be created!");
-	}
-
-	GLenum error = glewInit();
-	if(error != GLEW_OK) fatalError("Cloud not init GLEW");
-
-
-	std::printf("***   OpenGL Version: %s   ***\n", glGetString(GL_VERSION));
-
-	glClearColor(0.f, 0.1f, 0.2f, 1.f);
-
-	// Vsync off
-	SDL_GL_SetSwapInterval(0);
-
+	_window.create("Engine", _screenWidth, _screenHeight, 0);
 	initShaders();
 }
 
@@ -143,7 +120,7 @@ void MainGame::drawGame()
 	glBindTexture(GL_TEXTURE_2D, 0);
 	_colorProgram.unUse();
 
-	SDL_GL_SwapWindow(_window);
+	_window.swapBuffer();
 }
 
 void MainGame::CalculateFPS()

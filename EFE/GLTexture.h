@@ -1,9 +1,13 @@
 #pragma once
 #include <GL/glew.h>
 
-struct GLTexture
+namespace efe
 {
-	GLint id;
-	int width;
-	int height;
-};
+	struct GLTexture
+	{
+		GLint id;
+		int width;
+		int height;
+	};
+
+}

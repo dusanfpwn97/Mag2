@@ -3,26 +3,28 @@
 #include "GLTexture.h"
 
 #include <string>
-
-class Sprite
+namespace efe
 {
-public:
-	Sprite();
-	~Sprite();
+	class Sprite
+	{
+	public:
+		Sprite();
+		~Sprite();
 
 
-	void init(float x, float y, float width, float height, std::string texturePath);
+		void init(float x, float y, float width, float height, std::string texturePath);
 
-	void draw();
-	
+		void draw();
 
-private:
-	float _x = 0;
-	float _y = 0;
-	float _width = 0;
-	float _height = 0;
-	GLint _vboID = 0;
-	GLTexture _texture;
 
-};
+	private:
+		float _x = 0;
+		float _y = 0;
+		float _width = 0;
+		float _height = 0;
+		GLint _vboID = 0;
+		GLTexture _texture;
 
+	};
+
+}

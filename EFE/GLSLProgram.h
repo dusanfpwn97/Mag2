@@ -2,29 +2,32 @@
 #include <string>
 #include <GL/glew.h>
 
-class GLSLProgram
+namespace efe
 {
-public:
-	GLSLProgram();
-	~GLSLProgram();
+	class GLSLProgram
+	{
+	public:
+		GLSLProgram();
+		~GLSLProgram();
 
-	void compileShaders(const std::string &vertexShaderFilepath, const std::string &fragmentShaderFilepath);
+		void compileShaders(const std::string& vertexShaderFilepath, const std::string& fragmentShaderFilepath);
 
-	void linkShaders();
+		void linkShaders();
 
-	void addAttribute(const std::string& attributeName);;
+		void addAttribute(const std::string& attributeName);;
 
-	void use();
-	void unUse();
+		void use();
+		void unUse();
 
-	GLint getUniformLocation(const std::string& uniformName);
-private:
-	int _numAttributes;
-	GLint _programID;
+		GLint getUniformLocation(const std::string& uniformName);
+	private:
+		int _numAttributes;
+		GLint _programID;
 
-	GLint _vertexShaderID;
-	GLint _fragmentShaderID;
+		GLint _vertexShaderID;
+		GLint _fragmentShaderID;
 
-	void compileShader(const std::string& filepath, GLint id);
-};
+		void compileShader(const std::string& filepath, GLint id);
+	};
 
+}

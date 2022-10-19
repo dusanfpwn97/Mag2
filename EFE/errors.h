@@ -2,4 +2,7 @@
 
 #include <string>
 
-extern void fatalError(std::string errorString);
+namespace efe
+{
+	extern void fatalError(std::string errorString);
+}
