@@ -4,7 +4,7 @@
 #include "Sprite.h"
 #include "GLSLProgram.h"
 #include "GLTexture.h"
-
+#include <vector>
 
 
 enum class GameState { PLAY, EXIT };
@@ -25,18 +25,21 @@ private:
 	void gameLoop();
 	void processInput();
 	void drawGame();
+	void CalculateFPS();
 
 	SDL_Window* _window;
 
 	int _screenWidth;
 	int _screenHeight;
 	GameState _gameState;
-	Sprite _sprite;
 
+	std::vector<Sprite*> _sprites;
 	GLSLProgram _colorProgram;
-	GLTexture _playerTexture;
 
+	float _fps;
+	float _frameTime;
 	float _time;
+	float _maxFPS;
 
 };
 
