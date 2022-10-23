@@ -39,8 +39,9 @@ void MainGame::initSystems()
 	_spriteBatch.init();
 	_fpsLimiter.init(_maxFPS);
 
-	_boidManager.spawnBoids(500);
-	_boidManager.updateBounds(_screenWidth/2, _screenHeight/2);
+	_boidManager.updateBounds(_screenWidth / 2, _screenHeight / 2);
+	_boidManager.spawnBoids(500, glm::vec2(0.f, 0.f));
+
 }
 
 void MainGame::initShaders()
@@ -144,7 +145,7 @@ void MainGame::processInput()
 	{
 		glm::vec2 mouseCoords = _inputManager.getMouseCoords();
 		mouseCoords = _camera.convertScreenToWorld(mouseCoords);
-		std::cout << mouseCoords.x << " " << mouseCoords.y << std::endl;
+		_boidManager.spawnBoids(1, mouseCoords);
 	}
 
 }

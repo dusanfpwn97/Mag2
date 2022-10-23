@@ -15,30 +15,45 @@ BoidManager::~BoidManager()
 
 void BoidManager::updateBounds(const int x, const int y)
 {
+	_boundX = x;
+	_boundY = y;
+
 	for (int i = 0; i < _boids.size(); i++)
 	{
-		_boids[i].updateBounds(x, y);
+		_boids[i].updateBounds(_boundX, _boundX);
 	}
 }
 
-void BoidManager::spawnBoids(int num)
+void BoidManager::spawnBoids(int num, glm::vec2 pos)
 {
-	srand(time(NULL));
-	const float randMax = static_cast<float>(RAND_MAX);
-	const float halfRandMax = randMax / 2;
-	for (int i = 0; i < num; i++)
+	if (pos.x < 0.1f && pos.y < 0.1f && pos.x > -0.1f && pos.y > -0.1f)
 	{
-		glm::vec2 direction;
-		direction.x = (rand() - halfRandMax) / randMax;
-		direction.y = (rand() - halfRandMax) / randMax;
-		glm::normalize(direction);
+		srand(time(NULL));
+		const float randMax = static_cast<float>(RAND_MAX);
+		const float halfRandMax = randMax / 2;
+		for (int i = 0; i < num; i++)
+		{
+			glm::vec2 vel;
+			vel.x = (rand() - halfRandMax) / randMax;
+			vel.y = (rand() - halfRandMax) / randMax;
+			vel = glm::normalize(vel);
 
-		glm::vec2 pos;
-		pos.x = rand() / randMax * 600 - 256;
-		pos.y = rand() / randMax * 600 - 256;
+			glm::vec2 randPos;
+			randPos.x = (rand() - halfRandMax) / randMax * _boundX * 1.75f;
+			randPos.y = (rand() - halfRandMax) / randMax * _boundY * 1.75f;
 
-		_boids.emplace_back(pos, direction, 2.5f, *this);
+			_boids.emplace_back(randPos, vel, 1.5f, *this, _boids.size());
+
+			_boids[_boids.size() - 1].updateBounds(_boundX, _boundY);
+		}
 	}
+	else
+	{
+		_boids.emplace_back(pos, glm::vec2(0.f,0.f), 1.5f, *this, _boids.size());
+
+		_boids[_boids.size() - 1].updateBounds(_boundX, _boundY);
+	}
+	
 
 }
 
@@ -66,7 +81,7 @@ std::vector<Boid*> BoidManager::getNearbyBoids(const Boid& boid, float range)
 
 	for (int i = 0; i < _boids.size(); i++)
 	{
-		if (glm::distance(APos, _boids[i].getPos()) <= range)
+		if ((glm::distance(APos, _boids[i].getPos()) <= range) && boid.getId() != _boids[i].getId())
 		{
 			boids.push_back(&_boids[i]);
 		}

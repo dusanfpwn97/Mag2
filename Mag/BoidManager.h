@@ -13,7 +13,7 @@ public:
 
 	void updateBounds(const int x, const int y);
 
-	void spawnBoids(int num);
+	void spawnBoids(int num, glm::vec2 pos);
 	void drawBoids(efe::SpriteBatch &spriteBatch);
 	void updateBoids();
 
@@ -24,6 +24,7 @@ public:
 private:
 	std::vector<Boid> _boids;
 
-
+	int _boundX;
+	int _boundY;
 };
 
