@@ -9,11 +9,11 @@
 
 
 MainGame::MainGame() :
-	_screenWidth(1024),			  
-	_screenHeight(768),			   
+	_screenWidth(1920),			  
+	_screenHeight(1080),			   
 	_gameState(GameState::PLAY),
 	_time(0.f),			  
-	_maxFPS(120.f)
+	_maxFPS(75.f)
 	
 {
 	_camera.init(_screenWidth, _screenHeight);
@@ -34,7 +34,7 @@ void MainGame::run()
 void MainGame::initSystems()
 {
 
-	_window.create("Engine", _screenWidth, _screenHeight, 0);
+	_window.create("Engine", _screenWidth, _screenHeight, efe::BORDERLESS);
 	initShaders();
 	_spriteBatch.init();
 	_fpsLimiter.init(_maxFPS);
@@ -76,7 +76,7 @@ void MainGame::gameLoop()
 		frameCounter++;
 		if (frameCounter == 30)
 		{
-			std::cout << _fps << std::endl;
+			//std::cout << _fps << std::endl;
 			frameCounter = 0;
 		}
 		

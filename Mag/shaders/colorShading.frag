@@ -1,4 +1,4 @@
-#version 430
+#version 400
 in vec2 fragmentPosition;
 in vec4 fragmentColor;
 in vec2 fragmentUV;

@@ -46,7 +46,7 @@ void Boid::draw(efe::SpriteBatch& spriteBatch)
 
 void Boid::update()
 {
-	_nearbyBoids = _boidManager->getNearbyBoids(*this, 150.f);
+	_nearbyBoids = _boidManager->getNearbyBoids(*this, 400.f);
 	calculateVelocity();
 	move();
 

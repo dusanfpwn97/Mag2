@@ -1,4 +1,4 @@
-#version 430
+#version 400
 
 in vec2 vertexPosition;
 in vec4 vertexColor;
