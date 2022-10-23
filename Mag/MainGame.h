@@ -5,8 +5,10 @@
 #include <EFE/Sprite.h>
 #include <EFE/GLSLProgram.h>
 #include <EFE/GLTexture.h>
-#include <vector>
 #include <EFE/Window.h>
+#include <EFE/Camera2D.h>
+#include <EFE/SpriteBatch.h>
+#include <vector>
 
 
 enum class GameState { PLAY, EXIT };
@@ -30,13 +32,15 @@ private:
 	void CalculateFPS();
 
 	efe::Window _window;
+	efe::Camera2D _camera;
 
 	int _screenWidth;
 	int _screenHeight;
 	GameState _gameState;
 
-	std::vector<efe::Sprite*> _sprites;
 	efe::GLSLProgram _colorProgram;
+
+	efe::SpriteBatch _spriteBatch;
 
 	float _fps;
 	float _frameTime;

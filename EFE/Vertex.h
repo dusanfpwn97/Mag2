@@ -28,7 +28,7 @@ namespace efe
 		Color    color;
 		UV uv;
 
-		void SetPosition(float x, float y)
+		void setPosition(float x, float y)
 		{
 			position.x = x;
 			position.y = y;
