@@ -8,7 +8,10 @@
 #include <EFE/Window.h>
 #include <EFE/Camera2D.h>
 #include <EFE/SpriteBatch.h>
+#include <EFE/InputManager.h>
+#include <EFE/Timing.h>
 #include <vector>
+
 
 
 enum class GameState { PLAY, EXIT };
@@ -29,7 +32,6 @@ private:
 	void gameLoop();
 	void processInput();
 	void drawGame();
-	void CalculateFPS();
 
 	efe::Window _window;
 	efe::Camera2D _camera;
@@ -39,13 +41,13 @@ private:
 	GameState _gameState;
 
 	efe::GLSLProgram _colorProgram;
-
+	efe::InputManager _inputManager;
 	efe::SpriteBatch _spriteBatch;
+	efe::FpsLimiter _fpsLimiter;
 
-	float _fps;
-	float _frameTime;
-	float _time;
 	float _maxFPS;
+	float _fps;
+	float _time;
 
 };
 
