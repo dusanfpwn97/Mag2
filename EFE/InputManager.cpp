@@ -1,6 +1,7 @@
 #include "InputManager.h"
 
-efe::InputManager::InputManager()
+efe::InputManager::InputManager() :
+	_mouseCoords(0.f)
 {
 }
 
@@ -16,6 +17,12 @@ void efe::InputManager::pressKey(unsigned int keyID)
 void efe::InputManager::releaseKey(unsigned int keyID)
 {
 	_keyMap[keyID] = false;
+}
+
+void efe::InputManager::setMouseCoords(float x, float y)
+{
+	_mouseCoords.x = x;
+	_mouseCoords.y = y;
 }
 
 bool efe::InputManager::isKeyPressed(unsigned int keyID)

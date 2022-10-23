@@ -82,10 +82,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Boid.cpp" />
+    <ClCompile Include="BoidManager.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainGame.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Boid.h" />
+    <ClInclude Include="BoidManager.h" />
     <ClInclude Include="MainGame.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -12,6 +12,9 @@
 #include <EFE/Timing.h>
 #include <vector>
 
+#include "Boid.h"
+#include "BoidManager.h"
+
 
 
 enum class GameState { PLAY, EXIT };
@@ -39,11 +42,13 @@ private:
 	int _screenWidth;
 	int _screenHeight;
 	GameState _gameState;
+	BoidManager _boidManager;
 
 	efe::GLSLProgram _colorProgram;
 	efe::InputManager _inputManager;
 	efe::SpriteBatch _spriteBatch;
 	efe::FpsLimiter _fpsLimiter;
+
 
 	float _maxFPS;
 	float _fps;

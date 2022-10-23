@@ -15,6 +15,9 @@ namespace efe
 		void init(int _screenWidth, int _screenHeight);
 
 		void update();
+
+		glm::vec2 convertScreenToWorld(glm::vec2 screenCoords);
+
 		void setPosition(const glm::vec2& newPosition)
 		{
 			_position = newPosition;

@@ -92,21 +92,7 @@ void SpriteBatch::createRenderBatches()
 	int currentVertex = 0;
 	int offset = 0;
 
-	//RenderBatch* newRenderBatch = new RenderBatch(offset, 6, _glyphs[0]->texture);
-	//_renderBatches.push_back(newRenderBatch);
-	//delete newRenderBatch;
-
-	// more optimized method but doesnt work for > C++ 11
-	//_renderBatches.emplace_back(offset, 6, _glyphs[0]->texture);
-	//_renderBatches.push_back(RenderBatch(offset, 6, _glyphs[0]->texture));
-
 	_renderBatches.emplace_back(offset, 6, _glyphs[0]->texture);
-	//_renderBatches.emplace_back();
-	//_renderBatches.back()->offset = offset;
-	//_renderBatches.back()->numVertices = 6;
-	//_renderBatches.back()->texture = _glyphs[0]->texture;
-
-
 
 	vertices[currentVertex] = _glyphs[0]->topLeft;
 	currentVertex++;
@@ -129,14 +115,6 @@ void SpriteBatch::createRenderBatches()
 		if (_glyphs[currentGlyph]->texture != _glyphs[currentGlyph - 1]->texture)
 		{
 			_renderBatches.emplace_back(offset, 6, _glyphs[currentGlyph]->texture);
-			//RenderBatch* newRenderBatch2 = new RenderBatch(offset, 6, _glyphs[currentGlyph]->texture);
-			//_renderBatches.push_back(newRenderBatch2);
-
-			//_renderBatches.emplace_back();
-			//_renderBatches.back()->offset = offset;
-			//_renderBatches.back()->numVertices = 6;
-			//_renderBatches.back()->texture = _glyphs[currentGlyph]->texture;
-			//delete newRenderBatch2;
 		}
 		else
 		{

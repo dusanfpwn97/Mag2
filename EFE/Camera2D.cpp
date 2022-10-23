@@ -41,4 +41,18 @@ namespace efe
 		_needsMatrixUpdate = false;
 
 	}
+
+	glm::vec2 Camera2D::convertScreenToWorld(glm::vec2 screenCoords)
+	{
+		screenCoords.y = _screenHeight - screenCoords.y;
+		// 0 is the center of the screen
+		screenCoords -= glm::vec2(_screenWidth / 2, _screenHeight / 2);
+		// take scale into the account (zoom)
+		screenCoords /= _scale;
+
+		screenCoords += _position;
+
+		return screenCoords;
+
+	}
 }

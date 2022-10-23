@@ -4,6 +4,7 @@
 #include <EFE/errors.h>
 #include <EFE/ResourceManager.h>
 
+
 //#include "ImageLoader.h"
 
 
@@ -37,6 +38,9 @@ void MainGame::initSystems()
 	initShaders();
 	_spriteBatch.init();
 	_fpsLimiter.init(_maxFPS);
+
+	_boidManager.spawnBoids(500);
+	_boidManager.updateBounds(_screenWidth/2, _screenHeight/2);
 }
 
 void MainGame::initShaders()
@@ -56,6 +60,8 @@ void MainGame::gameLoop()
 
 
 		_time += 0.06f;
+
+		_boidManager.updateBoids();
 
 		_camera.update();
 
@@ -98,6 +104,15 @@ void MainGame::processInput()
 			case SDL_KEYUP:
 				_inputManager.releaseKey(evnt.key.keysym.sym);
 				break;
+			case SDL_MOUSEBUTTONDOWN:
+				_inputManager.pressKey(evnt.button.button);
+				break;
+			case SDL_MOUSEBUTTONUP:
+				_inputManager.releaseKey(evnt.button.button);
+				break;
+			case SDL_MOUSEMOTION:
+				_inputManager.setMouseCoords(evnt.motion.x, evnt.motion.y);
+				break;
 		}
 	}
 
@@ -125,9 +140,15 @@ void MainGame::processInput()
 	{
 		_camera.setScale(_camera.getScale() + SCALE_SPEED);
 	}
+	if (_inputManager.isKeyPressed(SDL_BUTTON_LEFT))
+	{
+		glm::vec2 mouseCoords = _inputManager.getMouseCoords();
+		mouseCoords = _camera.convertScreenToWorld(mouseCoords);
+		std::cout << mouseCoords.x << " " << mouseCoords.y << std::endl;
+	}
 
 }
-
+ 
 void MainGame::drawGame()
 {
 	
@@ -149,26 +170,9 @@ void MainGame::drawGame()
 
 	_spriteBatch.begin();
 
-	glm::vec4 pos(0, 0, 11, 11);
-	glm::vec4 uv(0, 0, 1, 1);
-	static efe::GLTexture texture = efe::ResourceManager::getTexture("textures/jimmyJump_pack/PNG/CharacterRight_Standing.png");
-	efe::Color color;
-	color.r = 255;
-	color.b = 255;
-	color.a = 255;
-
-	for (int i = 0; i < 20; i++)
-	{
-		for (int j = 0; j < 20; j++)
-		{
-			_spriteBatch.draw(pos, uv, texture.id, color, 0);
-			_spriteBatch.draw(pos + glm::vec4(i * 11, j*11, 0, 0), uv, texture.id, color, 0);
-		}
-	}
-	
+	_boidManager.drawBoids(_spriteBatch);
 
 	_spriteBatch.end();
-
 	_spriteBatch.renderBatch();
 
 	glBindTexture(GL_TEXTURE_2D, 0);
@@ -176,3 +180,5 @@ void MainGame::drawGame()
 
 	_window.swapBuffer();
 }
+
+

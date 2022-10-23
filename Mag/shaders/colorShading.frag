@@ -14,7 +14,6 @@ void main()
 
 	color = textureColor * fragmentColor;
 	
-	color = fragmentColor * textureColor;
-
+	
 
 }

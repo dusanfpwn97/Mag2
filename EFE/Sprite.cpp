@@ -57,14 +57,14 @@ namespace efe
 		vertexData[5].setUV(1.0f, 1.0f);
 
 
-		for (int i = 0; i < 6; i++)
-		{
-			vertexData[i].setColor(255, 0, 225, 255);
+		//for (int i = 0; i < 6; i++)
+		//{
+		//	vertexData[i].setColor(255, 222, 225, 255);
+		//
+		//}
 
-		}
-
-		vertexData[1].setColor(0, 0, 225, 255);
-		vertexData[4].setColor(0, 255, 225, 255);
+		//vertexData[1].setColor(0, 0, 225, 255);
+		//vertexData[4].setColor(0, 255, 225, 255);
 
 		glBindBuffer(GL_ARRAY_BUFFER, _vboID);
 		glBufferData(GL_ARRAY_BUFFER, sizeof(vertexData), vertexData, GL_STATIC_DRAW);
@@ -76,8 +76,6 @@ namespace efe
 	{
 
 		glBindTexture(GL_TEXTURE_2D, _texture.id);
-
-		
 
 		glDrawArrays(GL_TRIANGLES, 0, 6);
 
