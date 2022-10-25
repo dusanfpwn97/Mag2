@@ -46,7 +46,7 @@ namespace efe
 
 		std::printf("***   OpenGL Version: %s   ***\n", glGetString(GL_VERSION));
 
-		glClearColor(0.f, 0.1f, 0.1f, 1.f);
+		glClearColor(0.05f, 0.15f, 0.125f, 1.f);
 
 		// Vsync off
 		SDL_GL_SetSwapInterval(0);

@@ -2,7 +2,8 @@
 #include <random>
 #include <ctime>
 #include <glm/glm.hpp>
-
+#include <glm/gtx/euler_angles.hpp> // atan2
+#include <iostream>
 
 BoidManager::BoidManager()
 {
@@ -15,6 +16,8 @@ BoidManager::~BoidManager()
 
 void BoidManager::updateBounds(const int x, const int y)
 {
+	srand(time(NULL));
+
 	_boundX = x;
 	_boundY = y;
 
@@ -26,18 +29,20 @@ void BoidManager::updateBounds(const int x, const int y)
 
 void BoidManager::spawnBoids(int num, glm::vec2 pos)
 {
+
+	const float randMax = static_cast<float>(RAND_MAX);
+	const float halfRandMax = randMax / 2;
+
+	glm::vec2 vel;
+	vel.x = (rand() - halfRandMax) / randMax;
+	vel.y = (rand() - halfRandMax) / randMax;
+	vel = glm::normalize(vel);
+
+
 	if (pos.x < 0.1f && pos.y < 0.1f && pos.x > -0.1f && pos.y > -0.1f)
 	{
-		srand(time(NULL));
-		const float randMax = static_cast<float>(RAND_MAX);
-		const float halfRandMax = randMax / 2;
 		for (int i = 0; i < num; i++)
 		{
-			glm::vec2 vel;
-			vel.x = (rand() - halfRandMax) / randMax;
-			vel.y = (rand() - halfRandMax) / randMax;
-			vel = glm::normalize(vel);
-
 			glm::vec2 randPos;
 			randPos.x = (rand() - halfRandMax) / randMax * _boundX * 1.75f;
 			randPos.y = (rand() - halfRandMax) / randMax * _boundY * 1.75f;
@@ -49,7 +54,7 @@ void BoidManager::spawnBoids(int num, glm::vec2 pos)
 	}
 	else
 	{
-		_boids.emplace_back(pos, glm::vec2(0.f,0.f), 1.5f, *this, _boids.size());
+		_boids.emplace_back(pos, vel, 1.5f, *this, _boids.size());
 
 		_boids[_boids.size() - 1].updateBounds(_boundX, _boundY);
 	}
@@ -79,10 +84,15 @@ std::vector<Boid*> BoidManager::getNearbyBoids(const Boid& boid, float range)
 	std::vector<Boid*> boids;
 	const glm::vec2 APos = boid.getPos();
 
+
 	for (int i = 0; i < _boids.size(); i++)
 	{
 		if ((glm::distance(APos, _boids[i].getPos()) <= range) && boid.getId() != _boids[i].getId())
 		{
+			//glm::vec2 ss = glm::atan2(APos, _boids[i].getPos());
+
+			//std::cout << ss.y << std::endl;
+
 			boids.push_back(&_boids[i]);
 		}
 

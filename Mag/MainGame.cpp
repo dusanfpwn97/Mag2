@@ -34,13 +34,13 @@ void MainGame::run()
 void MainGame::initSystems()
 {
 
-	_window.create("Engine", _screenWidth, _screenHeight, efe::BORDERLESS);
+	_window.create("Engine", _screenWidth, _screenHeight, 0);
 	initShaders();
 	_spriteBatch.init();
 	_fpsLimiter.init(_maxFPS);
 
 	_boidManager.updateBounds(_screenWidth / 2, _screenHeight / 2);
-	_boidManager.spawnBoids(500, glm::vec2(0.f, 0.f));
+	_boidManager.spawnBoids(300, glm::vec2(0.f, 0.f));
 
 }
 
@@ -87,7 +87,7 @@ void MainGame::processInput()
 {
 	SDL_Event evnt;
 
-	const float CAMERA_SPEED = 2.f;
+	const float CAMERA_SPEED = 10.f;
 	const float SCALE_SPEED = 0.02f;
 
 	while (SDL_PollEvent(&evnt))

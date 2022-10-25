@@ -92,8 +92,7 @@ void Boid::keepWithinBounds()
 
 void Boid::avoidOtherBoids()
 {
-
-	const static float avoidAmount = 0.05f;
+	const static float avoidAmount = 0.06f;
 
 	glm::vec2 dt = {0.f, 0.f};
 
@@ -109,7 +108,6 @@ void Boid::avoidOtherBoids()
 
 void Boid::limitSpeed()
 {
-
 	const float speed = sqrt(_vel.x * _vel.x + _vel.y * _vel.y);
 
 	if (speed > _speed)
@@ -124,7 +122,7 @@ void Boid::flyTowardsCenter()
 {
 	if (_nearbyBoids.size() == 0) return;
 
-	const static float centerAmount = 0.005f;
+	const static float centerAmount = 0.0035f;
 	
 	glm::vec2 center = { 0.f, 0.f };
 	
