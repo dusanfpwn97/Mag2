@@ -86,7 +86,7 @@ void Boid::avoidOtherBoids()
 	{
 		dt += _vel - _nearbyBoids[i]->getVel();
 	}
-
+	// Rezultat se dodaje u velocity
 	_vel += dt * avoidAmount;
 }
 
@@ -112,11 +112,12 @@ void Boid::flyTowardsCenter()
 	
 	glm::vec2 center = { 0.f, 0.f };
 	
+	// Zbir svih pozicija
 	for (int i = 0; i < _nearbyBoids.size(); i++)
 	{
 		center += _nearbyBoids[i]->getPos();
 	}
-	
+	// srednja vrednost svih pozicija
 	center /= (float)_nearbyBoids.size();
 	
 	_vel += (center - _position) * centerAmount;
@@ -131,10 +132,12 @@ void Boid::matchVelocity()
 
 	glm::vec2 avgVel = { 0.f, 0.f };
 
+	// Zbir svih brzina
 	for (int i = 0; i < _nearbyBoids.size(); i++)
 	{
 		avgVel += _nearbyBoids[i]->getVel();
 	}
+	// Srednja brzina
 	avgVel /= _nearbyBoids.size();
 
 	_vel += (avgVel - _vel) * amount;
