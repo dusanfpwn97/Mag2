@@ -34,14 +34,15 @@ void MainGame::run()
 // Inicijalizacija OpenGL šejder programa
 void MainGame::initSystems()
 {
-	// Kreiranje prozora, sa imenom, širinom i visinom i dodatnim opcijama za tip prozora
+	// Kreiranje prozora, sa imenom, širinom i visinom i
+	// dodatnim opcijama za tip prozora
 	_window.create("Zavrsni rad - Dusan Fajler", _screenWidth, _screenHeight, 0);
 	// Inicijalizacija OpenGL šejder programa
 	initShaders();
 	// Inicijalizacija _spriteBatch instance koju ćemo da koristimo za grupno iscrtavanje boida
 	_spriteBatch.init();
-	// Inicijalizacija _fpsLimiter instance koju koristimo za limitiranje koliko ćemo frejmova
-	// u sekundi obrađivati
+	// Inicijalizacija _fpsLimiter instance koju koristimo za limitiranje koliko ćemo
+	// frejmova u sekundi obrađivati
 	_fpsLimiter.init(_maxFPS);
 	// Postavljanje granica u kojima će se stvoriti boidi
 	_boidManager.updateBounds(_screenWidth, _screenHeight);
@@ -55,7 +56,8 @@ void MainGame::initShaders()
 {
 	// Kompajliranje OpenGL šejdera iz putanje
 	_colorProgram.compileShaders("shaders/colorShading.vert", "shaders/colorShading.frag");
-	// Dodavanje atributa _colorProgram instanci koju ćemo da koristimo za iscrtavanje boida
+	// Dodavanje atributa _colorProgram instanci koju ćemo da koristimo za
+	// iscrtavanje boida
 	_colorProgram.addAttribute("vertexPosition");
 	_colorProgram.addAttribute("vertexColor");
 	_colorProgram.addAttribute("vertexUV");
@@ -98,34 +100,41 @@ void MainGame::processInput()
 	{
 		switch (evnt.type)
 		{
-			// Ako je kliknut X u gornjem desnom uglu prozora menjamo stanje igre u EXIT i u sledećem frejmu izlazimo iz igre
+			// Ako je kliknut X u gornjem desnom uglu prozora menjamo
+			// stanje igre u EXIT i u sledećem frejmu izlazimo iz igre
 			case SDL_QUIT:
 				_gameState = GameState::EXIT;
 				break;
-			// Signaliziranje našem input manageru da je stisnuto dugme i prosleđivanje koje je dugme stisnuto
+			// Signaliziranje našem input manageru da je stisnuto dugme
+			// i prosleđivanje koje je dugme stisnuto
 			case SDL_KEYDOWN:
 				_inputManager.pressKey(evnt.key.keysym.sym);
 				break;
-				// Signaliziranje našem input manageru da je pušteno dugme i prosleđivanje koje je dugme pušteno
+			// Signaliziranje našem input manageru da je pušteno dugme
+			// i prosleđivanje koje je dugme pušteno
 			case SDL_KEYUP:
 				_inputManager.releaseKey(evnt.key.keysym.sym);
 				break;
-				// Signaliziranje našem input manageru da je stisnut klik i prosleđivanje koji je klik stisnut
+			// Signaliziranje našem input manageru da je stisnut klik
+			// i prosleđivanje koji je klik stisnut
 			case SDL_MOUSEBUTTONDOWN:
 				_inputManager.pressKey(evnt.button.button);
 				break;
-				// Signaliziranje našem input manageru da je pušten klik i prosleđivanje koji je klik pušten
+			// Signaliziranje našem input manageru da je pušten klik
+			// i prosleđivanje koji je klik pušten
 			case SDL_MOUSEBUTTONUP:
 				_inputManager.releaseKey(evnt.button.button);
 				break;
-				// Signaliziranje našem input manageru da je miš pomeren na neko novo mesto i prosleđivanje koorinata
+			// Signaliziranje našem input manageru da je miš
+			// pomeren na neko novo mesto i prosleđivanje koorinata
 			case SDL_MOUSEMOTION:
 				_inputManager.setMouseCoords(evnt.motion.x, evnt.motion.y);
 				break;
 		}
 	}
 
-	// Pomeranje kamere Gore, Dole, Levo, Desno, ako su stisnuti WSAD dugmici, respektivno
+	// Pomeranje kamere Gore, Dole, Levo, Desno,
+	// ako su stisnuti WSAD dugmici, respektivno
 	if (_inputManager.isKeyPressed(SDLK_w))
 	{
 		_camera.setPosition(_camera.getPosition() + glm::vec2(0.f, CAMERA_SPEED));
@@ -166,33 +175,37 @@ void MainGame::processInput()
  
 void MainGame::drawGame()
 {
-	
+	// Setovanje dubine koju će OpenGL da očisti
 	glClearDepth(1.0);
+	// Čišćenje bafera boje i dubine
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
+	// Setovanje koji će OpenGL program da se koristi
 	_colorProgram.use();
+	// Setovanje aktivne teksture na prvu teksturu
 	glActiveTexture(GL_TEXTURE0);
-
-	//GLint timeLocation = _colorProgram.getUniformLocation("time");
-	//glUniform1f(timeLocation, _time);
-
+	// Setovanje lokacije uniform varijable teksture
 	GLint textureLocation = _colorProgram.getUniformLocation("mySampler");
 	glUniform1i(textureLocation, 0);
-
+	// Setovanje lokacije uniform varijable lokacije i skale kamere
 	GLint pLocation = _colorProgram.getUniformLocation("P");
 	glm::mat4 cameraMatrix = _camera.getCameraMatrix();
 	glUniformMatrix4fv(pLocation, 1, GL_FALSE, &(cameraMatrix[0][0]));
-
+	
+	// Pripremanje _spriteBatch instance za crtanje
 	_spriteBatch.begin();
-
+	// Crtanje boida pomoću _spriteBatch instance
 	_boidManager.drawBoids(_spriteBatch);
-
+	// Završetak _spriteBatch instance
 	_spriteBatch.end();
+	// Konačno iscrtavanje na ekran
 	_spriteBatch.renderBatch();
-
+	
+	// Oslobađanje prve teksture
 	glBindTexture(GL_TEXTURE_2D, 0);
+	// Završetak OpenGL programa
 	_colorProgram.unUse();
 
+	// Zamenjivanje trenutnog bafera sa prethodnim - Prikaz na ekran
 	_window.swapBuffer();
 }
 
