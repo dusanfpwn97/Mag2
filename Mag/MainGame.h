@@ -2,7 +2,6 @@
 #include <SDL/SDL.h>
 #include <GL/glew.h>
 #include <EFE/EFE.h>
-#include <EFE/Sprite.h>
 #include <EFE/GLSLProgram.h>
 #include <EFE/GLTexture.h>
 #include <EFE/Window.h>
